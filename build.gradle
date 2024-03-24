@@ -1,0 +1,24 @@
+plugins {
+    id 'java'
+    id "io.qameta.allure" version "2.11.2"
+}
+
+group 'org.example'
+version '1.0-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    testImplementation "org.junit.jupiter:junit-jupiter-api:${junitVersion}"
+    testImplementation "org.junit.jupiter:junit-jupiter-engine:${junitVersion}"
+    testImplementation "com.codeborne:selenide:${selenideVersion}"
+    testImplementation "io.qameta.allure:allure-junit5:2.26.0"
+    implementation 'io.qameta.allure:allure-selenide:2.26.0'
+
+}
+
+test {
+    useJUnitPlatform()
+}
