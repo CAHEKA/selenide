@@ -1,8 +1,6 @@
-import com.codeborne.selenide.SelenideElement;
 import org.junit.jupiter.api.Test;
 import widgets.*;
 
-import static org.junit.jupiter.api.Assertions.fail;
 
 public class TestUI extends BaseTest {
 
@@ -23,7 +21,7 @@ public class TestUI extends BaseTest {
     @Test
     public void testDisappearingElements() {
         new DisappearingElements()
-                .waitForElementsAfterAttempts(5, 10);
+                .waitForNumberOfElementsAfterAttempts(5, 10);
     }
 
     @Test
@@ -33,26 +31,16 @@ public class TestUI extends BaseTest {
 
     @Test
     public void testHovers() {
-        Hovers hoversPage = new Hovers();
-
-        for (SelenideElement figure : hoversPage.getAllFigure()) {
-            hoversPage.highlightFigure(figure);
-        }
+        new Hovers()
+                .getAllFigure()
+                .highlightFigure();
     }
 
     @Test
     public void testFlashMessages() {
-        FlashMessages messages = new FlashMessages();
-        NotificationMessage notification = new NotificationMessage();
-
-        for (int attempt = 0; attempt < 10; attempt++) {
-            notification.clickHere();
-            if (messages.contains("Action successful")) {
-                return;
-            }
-            messages.close();
-        }
-        fail("Action unsuccesful");
+        new NotificationMessage()
+                .clickHere()
+                .waitForMessageAfterAttempts("Action successful", 10);
     }
 
     @Test
@@ -91,5 +79,5 @@ public class TestUI extends BaseTest {
                 .clickOnStatusCode("500")
                 .checkContainsUrl("500");
     }
-    
+
 }

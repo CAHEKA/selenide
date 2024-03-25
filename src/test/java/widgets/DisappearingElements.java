@@ -12,21 +12,21 @@ import static org.junit.jupiter.api.Assertions.fail;
 
 public class DisappearingElements {
 
-    private SelenideElement elements = $x("//div[@class='example']/ul");
+    private final SelenideElement elements = $x("//div[@class='example']/ul");
 
     public DisappearingElements() {
         Selenide.open("https://the-internet.herokuapp.com/disappearing_elements");
         elements.shouldBe(visible, Duration.ofSeconds(30));
     }
 
-    public void waitForElementsAfterAttempts(int expectedElements, int attempts) {
+    public void waitForNumberOfElementsAfterAttempts(int numberElements, int attempts) {
         for (int i = 0; i < attempts; i++) {
-            if (elements.findAll(By.tagName("li")).size() == expectedElements) {
+            if (elements.findAll(By.tagName("li")).size() == numberElements) {
                 return;
             }
             Selenide.refresh();
         }
-        fail("Failed to display " + expectedElements + " elements after " + attempts + " attempts");
+        fail("Failed to display " + numberElements + " elements after " + attempts + " attempts");
     }
     
 }

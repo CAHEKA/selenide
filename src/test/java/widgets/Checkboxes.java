@@ -11,7 +11,7 @@ import static com.codeborne.selenide.Selenide.$x;
 
 public class Checkboxes {
 
-    private SelenideElement checkboxes = $x("//form[@id='checkboxes']");
+    private final SelenideElement checkboxes = $x("//form[@id='checkboxes']");
     
     public Checkboxes() {
         Selenide.open("https://the-internet.herokuapp.com/checkboxes");

@@ -6,9 +6,9 @@ import org.openqa.selenium.By;
 import static com.codeborne.selenide.Selenide.$x;
 
 public class FlashMessages {
-    private SelenideElement container = $x("//div[@id='flash-messages']");
-    private By text = By.xpath(".//div[text()]");
-    private By close = By.xpath(".//a[@class='close']");
+    private final SelenideElement container = $x("//div[@id='flash-messages']");
+    private final By text = By.xpath(".//div[text()]");
+    private final By close = By.xpath(".//a[@class='close']");
 
 
     public boolean contains(String messages) {

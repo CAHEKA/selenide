@@ -14,8 +14,8 @@ import static com.codeborne.selenide.WebDriverRunner.url;
 
 public class StatusCodes {
 
-    private SelenideElement container = $x("//div[@class='example']");
-    private By text = By.xpath("./p");
+    private final SelenideElement container = $x("//div[@class='example']");
+    private final By text = By.xpath("./p");
 
     public StatusCodes() {
         Selenide.open("https://the-internet.herokuapp.com/status_codes");

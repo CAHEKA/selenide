@@ -11,7 +11,7 @@ import static com.codeborne.selenide.Selenide.$x;
 
 public class Inputs {
 
-    private SelenideElement inputField = $x("//div[@class='example']/input");
+    private final SelenideElement inputField = $x("//div[@class='example']/input");
 
     public Inputs() {
         Selenide.open("https://the-internet.herokuapp.com/inputs");

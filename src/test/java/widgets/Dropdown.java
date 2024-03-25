@@ -10,7 +10,7 @@ import static com.codeborne.selenide.Selenide.$x;
 
 public class Dropdown {
 
-    private SelenideElement dropdown = $x("//select[@id='dropdown']");
+    private final SelenideElement dropdown = $x("//select[@id='dropdown']");
 
     public Dropdown() {
         Selenide.open("https://the-internet.herokuapp.com/dropdown");

@@ -11,9 +11,9 @@ import static com.codeborne.selenide.Condition.visible;
 import static com.codeborne.selenide.Selenide.$x;
 
 public class AddRemoveElements {
-    private SelenideElement container = $x("//div[@class='example']");
-    private By addButton = By.xpath(".//button[@onclick='addElement()']");
-    private By deleteButton = By.xpath(".//button[@onclick='deleteElement()']");
+    private final SelenideElement container = $x("//div[@class='example']");
+    private final By addButton = By.xpath(".//button[@onclick='addElement()']");
+    private final By deleteButton = By.xpath(".//button[@onclick='deleteElement()']");
 
 
     public AddRemoveElements() {
