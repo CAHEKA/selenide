@@ -50,6 +50,7 @@ public class TestUI extends BaseTest {
             if (messages.contains("Action successful")) {
                 return;
             }
+            messages.close();
         }
         fail("Action unsuccesful");
     }
