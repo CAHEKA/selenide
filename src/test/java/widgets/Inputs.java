@@ -20,7 +20,7 @@ public class Inputs {
 
     public Inputs enterRandomNumber() {
         String randomNumber = String.valueOf(new Random().nextInt(10000) + 1);
-        inputField.setValue(randomNumber);
+        inputField.sendKeys(randomNumber);
         printCurrentValue();
         return this;
     }

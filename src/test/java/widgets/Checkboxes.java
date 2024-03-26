@@ -21,7 +21,9 @@ public class Checkboxes {
     public Checkboxes selectCheckbox(String text){
         String xpath = String.format(".//input[contains(following-sibling::text(), '%s')]", text);
         checkboxes.find(By.xpath(xpath)).click();
+        System.out.println("Checked attribute : " + checkboxes.find(By.xpath(xpath)).isSelected());
        return this; 
     }
-
+    
+    
 }
