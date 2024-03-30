@@ -11,9 +11,9 @@ public class FlashMessages {
     private final By close = By.xpath(".//a[@class='close']");
 
 
-    public boolean contains(String messages) {
+    public String getMessages() {
         container.isDisplayed();
-        return container.find(text).getText().contains(messages);
+        return container.find(text).getText();
     }
 
     public FlashMessages close() {

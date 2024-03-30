@@ -2,6 +2,8 @@ package widgets;
 
 import com.codeborne.selenide.Selenide;
 import com.codeborne.selenide.SelenideElement;
+import io.qameta.allure.Step;
+import org.junit.jupiter.api.Assertions;
 import org.openqa.selenium.By;
 
 import java.time.Duration;
@@ -19,14 +21,9 @@ public class DisappearingElements {
         elements.shouldBe(visible, Duration.ofSeconds(30));
     }
 
-    public void waitForNumberOfElementsAfterAttempts(int numberElements, int attempts) {
-        for (int i = 0; i < attempts; i++) {
-            if (elements.findAll(By.tagName("li")).size() == numberElements) {
-                return;
-            }
-            Selenide.refresh();
-        }
-        fail("Failed to display " + numberElements + " elements after " + attempts + " attempts");
+    @Step("Check number of elements: {numberElements}")
+    public void checkNumberOfElements(int numberElements) {
+        Assertions.assertEquals(elements.findAll(By.tagName("li")).size(), numberElements);
     }
     
 }

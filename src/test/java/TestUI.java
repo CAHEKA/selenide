@@ -1,83 +1,93 @@
+import org.junit.jupiter.api.DynamicTest;
+import org.junit.jupiter.api.RepeatedTest;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestFactory;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
 import widgets.*;
+
+import java.util.stream.Stream;
+
+import static java.util.Arrays.asList;
 
 
 public class TestUI extends BaseTest {
 
-    @Test
-    public void testCheckbox() {
+    @ParameterizedTest()
+    @CsvSource({
+            "'checkbox 1', true, 'checkbox 2', false",
+            "'checkbox 2', false, 'checkbox 1', true"
+    })
+    public void testCheckbox(String oneName, boolean oneState, String twoName, boolean twoState) {
         new Checkboxes()
-                .selectCheckbox("checkbox 1")
-                .selectCheckbox("checkbox 2");
+                .selectCheckbox(oneName)
+                .selectCheckbox(twoName)
+                .checkStateCheckbox(oneName, oneState)
+                .checkStateCheckbox(twoName, twoState);
     }
 
     @Test
     public void testDropdown() {
         new Dropdown()
                 .selectDropdownByNum("1")
-                .selectDropdownByNum("2");
+                .checkState("Option 1")
+                .selectDropdownByNum("2")
+                .checkState("Option 2");
     }
 
     @Test
+    @RepeatedTest(value = 10, name = "Disappearing elements: {currentRepetition} out of {totalRepetitions}")
     public void testDisappearingElements() {
         new DisappearingElements()
-                .waitForNumberOfElementsAfterAttempts(5, 10);
+                .checkNumberOfElements(5);
     }
 
-    @Test
-    public void testInputs() {
-        new Inputs().enterRandomNumber();
+    @TestFactory
+    public Stream<DynamicTest> testInputs() {
+        Inputs inputs = new Inputs();
+        return Stream.concat(
+                inputs.checkValidInputs(asList("-99", "-1", "0", "1", "9e+18")),
+                inputs.checkInvalidInputs(asList("abc", "!@#", " 123", "456 ", "1q"))
+        );
     }
 
-    @Test
-    public void testHovers() {
+    @ParameterizedTest(name = "Hovers with index {0} and text: {1}")
+    @CsvSource({
+            "0, 'name: user1'",
+            "1, 'name: user2'",
+            "2, 'name: user3'",
+    })
+    public void testHovers(Integer index,String text) {
         new Hovers()
-                .getAllFigure()
-                .highlightFigure();
+                .highlightFigure(index).
+                checkTextSelectedFigure(text);
     }
 
-    @Test
-    public void testFlashMessages() {
+    @RepeatedTest(value = 10,name = "Notification message: {currentRepetition} of {totalRepetitions} ")
+    public void testNotificationMessages() {
         new NotificationMessage()
                 .clickHere()
-                .waitForMessageAfterAttempts("Action successful", 10);
+                .checkForMessage("Action successful");
     }
 
-    @Test
-    public void testAddRemoveElements() {
-        new AddRemoveElements()
-                .addElements(5)
-                .deleteElementFromIndex(4)
-                .deleteElementFromIndex(2)
-                .deleteElementFromIndex(0);
+    @TestFactory
+    public Stream<DynamicTest> testAddRemoveElements() {
+        return new AddRemoveElements()
+                .addAndDeleteElements(asList("2:1", "5:2", "1:3"));
     }
 
-    @Test
-    public void testStatusCodes200() {
+    @ParameterizedTest(name = "StatusCodes: {0}")
+    @CsvSource({
+            "200",
+            "301",
+            "404",
+            "500",
+    })
+    public void testStatusCodes(String code) {
         new StatusCodes()
-                .clickOnStatusCode("200")
-                .checkContainsUrl("200");
+                .clickOnStatusCode(code)
+                .checkContainsUrl(code);
     }
-
-    @Test
-    public void testStatusCodes301() {
-        new StatusCodes()
-                .clickOnStatusCode("301")
-                .checkContainsUrl("301");
-    }
-
-    @Test
-    public void testStatusCodes404() {
-        new StatusCodes()
-                .clickOnStatusCode("404")
-                .checkContainsUrl("404");
-    }
-
-    @Test
-    public void testStatusCodes500() {
-        new StatusCodes()
-                .clickOnStatusCode("500")
-                .checkContainsUrl("500");
-    }
+    
 
 }

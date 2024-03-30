@@ -1,17 +1,12 @@
 package widgets;
 
-import com.codeborne.selenide.ElementsCollection;
 import com.codeborne.selenide.Selenide;
 import com.codeborne.selenide.SelenideElement;
-import com.codeborne.selenide.impl.WebElementsCollectionWrapper;
+import io.qameta.allure.Step;
+import org.junit.jupiter.api.Assertions;
 import org.openqa.selenium.By;
-import org.openqa.selenium.WebElement;
 
 import java.time.Duration;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.List;
 
 import static com.codeborne.selenide.Condition.visible;
 import static com.codeborne.selenide.Selenide.*;
@@ -21,25 +16,25 @@ public class Hovers {
     private final SelenideElement container = $x("//div[@class='example']");
     private final By figure = By.xpath(".//div[@class='figure']");
     private final By text = By.xpath(".//h5[text()]");
-    private ElementsCollection lastCollection;
+    SelenideElement element;
 
     public Hovers() {
         Selenide.open("https://the-internet.herokuapp.com/hovers");
         container.should(visible, Duration.ofSeconds(30));
     }
 
-    public Hovers getAllFigure() {
-        lastCollection = container.findAll(figure);
+    @Step("Highlight figure: {index}")
+    public Hovers highlightFigure(Integer index) {
+        element = container.findAll(figure).get(index).hover();
         return this;
     }
 
-    public void highlightFigure() {
-        if (lastCollection != null) {
-            for (SelenideElement element : lastCollection) {
-                element.hover();
-                System.out.println("Figure text :" + element.find(text).getText());
-            }
-            lastCollection = null;
-        }
+    @Step("Check text selected figure: {expectText}")
+    public Hovers checkTextSelectedFigure(String expectText) {
+        String actualText = element.find(text).getText();
+        System.out.println("Figure text :" + actualText);
+        Assertions.assertEquals(expectText, actualText, "Text should match");
+        return this;
     }
+
 }
