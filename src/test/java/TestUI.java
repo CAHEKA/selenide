@@ -3,9 +3,13 @@ import org.junit.jupiter.api.RepeatedTest;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestFactory;
 import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.CsvSource;
+import org.junit.jupiter.params.provider.MethodSource;
 import widgets.*;
 
+import java.awt.*;
+import java.util.Map;
 import java.util.stream.Stream;
 
 import static java.util.Arrays.asList;
@@ -13,26 +17,36 @@ import static java.util.Arrays.asList;
 
 public class TestUI extends BaseTest {
 
-    @ParameterizedTest()
-    @CsvSource({
-            "'checkbox 1', true, 'checkbox 2', false",
-            "'checkbox 2', false, 'checkbox 1', true"
-    })
-    public void testCheckbox(String oneName, boolean oneState, String twoName, boolean twoState) {
-        new Checkboxes()
-                .selectCheckbox(oneName)
-                .selectCheckbox(twoName)
-                .checkStateCheckbox(oneName, oneState)
-                .checkStateCheckbox(twoName, twoState);
+    static Stream<Arguments> checkboxData() {
+        return Stream.of(
+                Arguments.of(Map.of("checkbox 1", true,
+                        "checkbox 2", false)),
+                Arguments.of(Map.of("checkbox 2", false,
+                        "checkbox 1", true))
+        );
     }
 
-    @Test
-    public void testDropdown() {
+    @ParameterizedTest
+    @MethodSource("checkboxData")
+    public void testCheckbox(Map<String, Boolean> checkboxes) {
+        checkboxes.forEach((name, state) ->
+                new Checkboxes()
+                        .selectCheckbox(name)
+                        .checkStateCheckbox(name, state)
+                        .refresh()
+        );
+    }
+
+
+    @ParameterizedTest(name = "Line number {0} has the value: {1}")
+    @CsvSource({
+            "'1', 'Option 1'",
+            "'2', 'Option 2'",
+    })
+    public void testDropdown(String num, String value) {
         new Dropdown()
-                .selectDropdownByNum("1")
-                .checkState("Option 1")
-                .selectDropdownByNum("2")
-                .checkState("Option 2");
+                .selectDropdownByNum(num)
+                .checkState(value);
     }
 
     @Test
@@ -57,13 +71,13 @@ public class TestUI extends BaseTest {
             "1, 'name: user2'",
             "2, 'name: user3'",
     })
-    public void testHovers(Integer index,String text) {
+    public void testHovers(Integer index, String text) {
         new Hovers()
                 .highlightFigure(index).
                 checkTextSelectedFigure(text);
     }
 
-    @RepeatedTest(value = 10,name = "Notification message: {currentRepetition} of {totalRepetitions} ")
+    @RepeatedTest(value = 10, name = "Notification message: {currentRepetition} of {totalRepetitions} ")
     public void testNotificationMessages() {
         new NotificationMessage()
                 .clickHere()
@@ -88,6 +102,6 @@ public class TestUI extends BaseTest {
                 .clickOnStatusCode(code)
                 .checkContainsUrl(code);
     }
-    
+
 
 }
