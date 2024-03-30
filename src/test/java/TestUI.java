@@ -58,7 +58,7 @@ public class TestUI extends BaseTest {
                 .clickOnStatusCode("200")
                 .checkContainsUrl("200");
     }
-
+    
     @Test
     public void testStatusCodes301() {
         new StatusCodes()
