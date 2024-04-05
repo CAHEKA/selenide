@@ -1,6 +1,5 @@
 import org.junit.jupiter.api.DynamicTest;
 import org.junit.jupiter.api.RepeatedTest;
-import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestFactory;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
@@ -8,7 +7,6 @@ import org.junit.jupiter.params.provider.CsvSource;
 import org.junit.jupiter.params.provider.MethodSource;
 import widgets.*;
 
-import java.awt.*;
 import java.util.Map;
 import java.util.stream.Stream;
 
@@ -48,8 +46,7 @@ public class TestUI extends BaseTest {
                 .selectDropdownByNum(num)
                 .checkState(value);
     }
-
-    @Test
+    
     @RepeatedTest(value = 10, name = "Disappearing elements: {currentRepetition} out of {totalRepetitions}")
     public void testDisappearingElements() {
         new DisappearingElements()

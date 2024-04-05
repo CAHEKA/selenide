@@ -20,5 +20,8 @@ public class BaseTest {
         Configuration.browserCapabilities = chromeOptions;
 
         Configuration.fastSetValue = true;
+
+        Configuration.remote = "http://483e952dafac.vps.myjino.ru:49319/wd/hub"; // URL Selenoid
+
     }
 }
